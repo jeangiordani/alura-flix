@@ -1,4 +1,4 @@
 ## Aluraflix Backend challenge
 
--[x] Auth
--[ ] Crud
+- [ ] Crud
+- [x] Auth
