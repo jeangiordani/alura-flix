@@ -18,9 +18,9 @@ class AuthRepository
     {
         try {
             $this->model->create($data);
-            return response()->json(['status' => 'created', 'data' => $data]);
+            return response()->json(['status' => 'created', 'data' => $data], 201);
         } catch (\Throwable $th) {
-            return response()->json();
+            return response()->json(['status' => 'error', 'message' => $th->getMessage()], 409);
         }
     }
 
