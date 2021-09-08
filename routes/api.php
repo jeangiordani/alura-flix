@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,15 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post("/login", [AuthController::class, 'login'])->name('auth.login');
+    Route::post("/logout", [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post("/me", [AuthController::class, 'me'])->name('auth.me');
+});
