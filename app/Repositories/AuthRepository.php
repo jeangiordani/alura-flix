@@ -20,24 +20,22 @@ class AuthRepository
         $validated = Validator::make(
             $data,
             [
-                'name' => 'required|string|min:3|',
+                'name' => 'required|string|',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required'
             ]
         );
+        $data['password'] = bcrypt($data['password']);
 
         if ($validated->fails()) {
             return response()->json([
                 'status' => 'fail',
                 'errors' => $validated->errors()->messages()
             ], 422);
-        } else {
-            $data = [
-                "name" => $data['name'],
-                "password" => bcrypt($data['password']),
-                "email" => $data['email']
-            ];
         }
+
+        $user = $this->model::create($data);
+
 
         return response()->json(['status' => 'success', 'data' => $data], 201);
     }
@@ -57,7 +55,7 @@ class AuthRepository
             ], 422);
         }
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($data)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

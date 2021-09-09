@@ -18,24 +18,21 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = $request->all();
-        dd($data);
+        return $this->repository->login($request->only(['email', 'password']));
     }
 
     public function register(Request $request)
     {
-        $this->repository->register($request->all());
+        return $this->repository->register($request->only(['name', 'email', 'password']));
     }
 
     public function logout(Request $request)
     {
-        $data = $request->all();
-        dd($data);
+        return $this->repository->logout();
     }
 
     public function me(Request $request)
     {
-        $data = $request->all();
-        dd($data);
+        return $this->repository->me();
     }
 }
