@@ -92,7 +92,6 @@ class CategoryRepository
                 'status' => 'fail',
                 'data' => 'Category not found'
             ], 404);
-            dd($category);
         }
     }
 
