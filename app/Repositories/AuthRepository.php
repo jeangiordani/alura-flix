@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthRepository
 {
@@ -16,17 +17,45 @@ class AuthRepository
 
     public function register(array $data)
     {
-        try {
-            $this->model->create($data);
-            return response()->json(['status' => 'created', 'data' => $data], 201);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 'error', 'message' => $th->getMessage()], 409);
+        $validated = Validator::make(
+            $data,
+            [
+                'name' => 'required|string|min:3|',
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required'
+            ]
+        );
+
+        if ($validated->fails()) {
+            return response()->json([
+                'status' => 'fail',
+                'errors' => $validated->errors()->messages()
+            ], 422);
+        } else {
+            $data = [
+                "name" => $data['name'],
+                "password" => bcrypt($data['password']),
+                "email" => $data['email']
+            ];
         }
+
+        return response()->json(['status' => 'success', 'data' => $data], 201);
     }
 
     public function login(array $data)
     {
-        $credentials = $data;
+
+        $credentials = Validator::make($data, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if ($credentials->fails()) {
+            return response()->json([
+                'status' => 'fail',
+                'errors' => $credentials->errors()->messages()
+            ], 422);
+        }
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -45,11 +74,6 @@ class AuthRepository
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
     }
 
     protected function respondWithToken($token)
