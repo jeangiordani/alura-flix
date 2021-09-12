@@ -12,4 +12,9 @@ class Category extends Model
     protected $table = 'categories';
 
     protected $fillable = ['title', 'color'];
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class, 'category_id', 'id');
+    }
 }
