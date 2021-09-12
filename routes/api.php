@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,3 +40,9 @@ Route::get('/categorias/{id}', [CategoryController::class, 'getCategory'])->name
 Route::post('/categorias', [CategoryController::class, 'createCategory'])->name('post.category')->middleware('jwt.auth');
 Route::put('/categorias/{id}', [CategoryController::class, 'updateCategory'])->name('put.category')->middleware('jwt.auth');
 Route::delete('/categorias/{id}', [CategoryController::class, 'destroyCategory'])->name('delete.category')->middleware('jwt.auth');
+
+Route::get('/videos', [VideoController::class, 'getVideos'])->name('get.videos')->middleware('jwt.auth');
+Route::post('/videos', [VideoController::class, 'createVideo'])->name('post.video')->middleware('jwt.auth');
+Route::get('/videos/{id}', [VideoController::class, 'getVideo'])->name('get.video')->middleware('jwt.auth');
+Route::put('/videos/{id}', [VideoController::class, 'updateVideo'])->name('update.video')->middleware('jwt.auth');
+Route::delete('/videos/{id}', [VideoController::class, 'destroyVideo'])->name('delete.video')->middleware('jwt.auth');
