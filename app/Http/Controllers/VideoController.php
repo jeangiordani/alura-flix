@@ -38,4 +38,19 @@ class VideoController extends Controller
     {
         return $this->repository->destroyVideo($id);
     }
+
+    public function getVideosByCategory(int $id)
+    {
+        return $this->repository->getVideosByCategory($id);
+    }
+
+    public function searchVideos(string $search = '')
+    {
+        return $this->repository->searchVideos($search);
+    }
+
+    public function getFreeVideos()
+    {
+        return $this->repository->getFreeVideos();
+    }
 }

@@ -18,7 +18,7 @@ class VideoRepository
 
     public function getVideos(): JsonResponse
     {
-        $data =  $this->model->orderBy('category_id', "ASC")->get();
+        $data =  $this->model->orderBy('category_id', "ASC")->simplePaginate(5);
         return response()->json([
             'status' => 'success',
             'data' => $data
@@ -132,6 +132,57 @@ class VideoRepository
         return response()->json([
             'status' => 'fail',
             'message' => 'Video not found'
+        ], 404);
+    }
+
+    public function getVideosByCategory(int $id): JsonResponse
+    {
+        $data = $this->model->videosByCategory($id);
+
+        if (!empty($data)) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'Videos not found'
+        ], 404);
+    }
+
+    public function searchVideos(string $query): JsonResponse
+    {
+        $data = $this->model->where('title', 'like', "%{$query}%")->get()->toArray();
+
+        if (!empty($data)) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'Videos not found'
+        ], 404);
+    }
+
+    public function getFreeVideos(): JsonResponse
+    {
+        $data = $this->model->freeVideos();
+
+        if (!empty($data)) {
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'fail',
+            'message' => 'Videos not found'
         ], 404);
     }
 
