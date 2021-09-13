@@ -17,4 +17,14 @@ class Video extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function videosByCategory(int $id)
+    {
+        return $this->where('category_id', $id)->orderBy('category_id', "ASC")->get()->toArray();
+    }
+
+    public function freeVideos()
+    {
+        return $this->where('category_id', 1)->get()->toArray();
+    }
 }

@@ -41,8 +41,12 @@ Route::post('/categorias', [CategoryController::class, 'createCategory'])->name(
 Route::put('/categorias/{id}', [CategoryController::class, 'updateCategory'])->name('put.category')->middleware('jwt.auth');
 Route::delete('/categorias/{id}', [CategoryController::class, 'destroyCategory'])->name('delete.category')->middleware('jwt.auth');
 
+Route::get('/videos/free/', [VideoController::class, 'getFreeVideos'])->name('free.videos')->middleware('jwt.auth');
 Route::get('/videos', [VideoController::class, 'getVideos'])->name('get.videos')->middleware('jwt.auth');
 Route::post('/videos', [VideoController::class, 'createVideo'])->name('post.video')->middleware('jwt.auth');
 Route::get('/videos/{id}', [VideoController::class, 'getVideo'])->name('get.video')->middleware('jwt.auth');
 Route::put('/videos/{id}', [VideoController::class, 'updateVideo'])->name('update.video')->middleware('jwt.auth');
 Route::delete('/videos/{id}', [VideoController::class, 'destroyVideo'])->name('delete.video')->middleware('jwt.auth');
+
+Route::get('/videos/search/{search}', [VideoController::class, 'searchVideos'])->name('search.videos')->middleware('jwt.auth');
+Route::get('/categorias/{id}/videos', [VideoController::class, 'getVideosByCategory'])->name('videos.by.category')->middleware('jwt.auth');

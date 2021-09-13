@@ -17,7 +17,7 @@ class CategoryRepository
 
     public function getCategories(): JsonResponse
     {
-        $data = $this->model->all();
+        $data = $this->model->simplePaginate(5);
 
         return response()->json([
             'status' => 'success',
@@ -64,7 +64,7 @@ class CategoryRepository
         ], 201);
     }
 
-    public function updateCategory(array $data, int $id)
+    public function updateCategory(array $data, int $id): JsonResponse
     {
         $category = $this->findById($id);
 
@@ -112,7 +112,6 @@ class CategoryRepository
             'data' => 'Category not found'
         ], 404);
     }
-
 
     private function findById($id)
     {
