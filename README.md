@@ -4,3 +4,4 @@
 - [x] Rotas
 - [x] Crud
 - [x] Paginação
+- [ ] Criar traits separadas para lidar com as validações
