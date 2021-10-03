@@ -5,4 +5,4 @@
 - [x] Crud
 - [x] Paginação
 - [ ] Criar traits separadas para lidar com as validações
-- [ ] Adicionar um base repository 
+- [ ] Adicionar um base repository para os métodos iguais
